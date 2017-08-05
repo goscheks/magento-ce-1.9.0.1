@@ -500,6 +500,119 @@ final class Mage
      * @param array $invokeArgs
      * @return Mage_Core_Controller_Front_Action
      */
+    commit 13df100f57cc07899aa693e8c8f40b907ef8e39f
+Author: trungjc <trungnguyenthanh70@gmail.com>
+Date:   Fri May 6 06:58:56 2016 +0700
+
+    fix banners for catalog due to update banner plugin
+
+diff --git a/app/code/community/Magestore/Bannerslider/Helper/Data.php b/app/code/community/Magestore/Bannerslider/Helper/Data.php
+index e79cbac..b0319af 100755
+--- a/app/code/community/Magestore/Bannerslider/Helper/Data.php
++++ b/app/code/community/Magestore/Bannerslider/Helper/Data.php
+@@ -79,7 +79,7 @@ class Magestore_Bannerslider_Helper_Data extends Mage_Core_Helper_Abstract {
+                     array('value' => 'category-sidebar-left-top', 'label' => $this->__('Category-Sidebar-Top-Left')),
+                     array('value' => 'category-sidebar-left-bottom', 'label' => $this->__('Category-Sidebar-Bottom-Left')),
+                     array('value' => 'category-sidebar-fixed-left', 'label' => $this->__('Category-Sidebar-Fixed-Left')),
+-                  array('value' => 'category-sidebar-fixed-right', 'label' => $this->__('Category-Sidebar-Fixed-Right')),
++                    array('value' => 'category-sidebar-fixed-right', 'label' => $this->__('Category-Sidebar-Fixed-Right')),
+                     array('value' => 'category-content-top', 'label' => $this->__('Category-Content-Top')),
+                     array('value' => 'category-menu-top', 'label' => $this->__('Category-Menu-Top')),
+                     array('value' => 'category-menu-bottom', 'label' => $this->__('Category-Menu-Bottom')),
+diff --git a/app/design/frontend/ausport/default/layout/local.xml b/app/design/frontend/ausport/default/layout/local.xml
+index 36f3112..26293df 100644
+--- a/app/design/frontend/ausport/default/layout/local.xml
++++ b/app/design/frontend/ausport/default/layout/local.xml
+@@ -241,7 +241,7 @@
+ 			<action method="setTitle" translate="value"><value>Specifications</value></action>
+ 		</reference>
+ 		
+-	  <!-- <reference name="beforeContent">
++	  <!--<reference name="beforeContent">
+ 	         <block type="bannerslider/bannerslider" name="productBannerLeft" before="-">
+ 	           <action method="setBlockPosition">
+ 	               <block_position>catalog-sidebar-fixed-left</block_position>
+@@ -254,8 +254,32 @@
+ 	                 <block_position>catalog-sidebar-fixed-right</block_position>
+ 	             </action>
+ 	         </block>
+-	     </reference>	 -->
++	     </reference>-->	 
+   </catalog_product_view>
++  
++  <catalog_category_default>
++      <reference name="beforeContent">
++       <block type="bannerslider/bannerslider" name="defaultCataLogFixedLeft" before="-">
++         <action method="setBlockPosition">
++             <block_position>category-sidebar-fixed-left</block_position>
++         </action>
++         <action method="setCateBlockPosition">
++             <cateblock_position>category-sidebar-fixed-left</cateblock_position>
++         </action>
++       </block>
++       </reference>
++       <reference name="afterContent">
++       <block type="bannerslider/bannerslider" name="defaultCataLogFixedRight" before="-">
++           <action method="setBlockPosition">
++               <block_position>category-sidebar-fixed-right</block_position>
++           </action>
++           <action method="setCateBlockPosition">
++               <cateblock_position>category-sidebar-fixed-right</cateblock_position>
++           </action>
++       </block>
++     </reference>
++  </catalog_category_default>
++  
+ 	<catalogsearch_result_index translate="label">
+     <label>Quick Search Form</label>
+     <reference name="root">
+@@ -265,14 +289,20 @@
+     <reference name="beforeContent">
+        <block type="bannerslider/bannerslider" name="cataLogBannerLeft" before="-">
+          <action method="setBlockPosition">
+-             <block_position>catalog-sidebar-fixed-left</block_position>
++             <block_position>category-sidebar-fixed-left</block_position>
+          </action>
++         <action method="setCateBlockPosition">
++               <cateblock_position>category-sidebar-fixed-left</cateblock_position>
++           </action>
+        </block>
+        </reference>
+        <reference name="afterContent">
+        <block type="bannerslider/bannerslider" name="cataLogBannerRight" before="-">
+            <action method="setBlockPosition">
+-               <block_position>catalog-sidebar-fixed-right</block_position>
++               <block_position>category-sidebar-fixed-right</block_position>
++           </action>
++           <action method="setCateBlockPosition">
++               <cateblock_position>category-sidebar-fixed-right</cateblock_position>
+            </action>
+        </block>
+        </reference>	
+@@ -282,15 +312,21 @@
+ 		<reference name="beforeContent">
+          <block type="bannerslider/bannerslider" name="cataLogLayerBannerLeft" before="-">
+            <action method="setBlockPosition">
+-               <block_position>catalog-sidebar-fixed-left</block_position>
++               <block_position>category-sidebar-fixed-left</block_position>
++           </action>
++           <action method="setCateBlockPosition">
++               <cateblock_position>category-sidebar-fixed-left</cateblock_position>
+            </action>
+          </block>
+ 		   </reference>
+ 		   <reference name="afterContent">
+ 		       <block type="bannerslider/bannerslider" name="cataLogLayerBannerRight" before="-">
+ 		           <action method="setBlockPosition">
+-		               <block_position>catalog-sidebar-fixed-right</block_position>
++		               <block_position>category-sidebar-fixed-right</block_position>
+ 		           </action>
++		           <action method="setCateBlockPosition">
++               <cateblock_position>category-sidebar-fixed-right</cateblock_position>
++           </action>
+ 		       </block>
+ 		   </reference>     			
+ 	</catalog_category_layered>
     public static function getControllerInstance($class, $request, $response, array $invokeArgs = array())
     {
         return new $class($request, $response, $invokeArgs);
